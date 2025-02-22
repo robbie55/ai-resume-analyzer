@@ -29,3 +29,9 @@ Thumbs.db
 
 # TypeScript cache
 *.tsbuildinfo
+
+# nodemon config
+nodemon.json
+
+# Uploads output
+/src/uploads/
