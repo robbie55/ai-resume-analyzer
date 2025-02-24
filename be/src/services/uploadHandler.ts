@@ -8,6 +8,12 @@ interface Success {
   error?: Error;
 }
 
+/**
+ * uploadFileS3 handles sending a PutObject cmd to S3 bucket
+ *
+ * @param file file to be uploaded to S3
+ * @returns
+ */
 export const uploadFileS3 = async (
   file: Express.Multer.File
 ): Promise<Success> => {

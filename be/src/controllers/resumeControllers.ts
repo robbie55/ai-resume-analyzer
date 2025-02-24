@@ -2,6 +2,14 @@ import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { uploadFileS3 } from '../services/uploadHandler';
 import { serverError } from '../util/serverCodes';
 
+/**
+ * uploadResume handles delegating file upload to S3 upload service
+ *
+ * @param req Express Request
+ * @param res Express Response
+ * @param next Express next()
+ * @returns
+ */
 export const uploadResume: RequestHandler = async (
   req: Request,
   res: Response,

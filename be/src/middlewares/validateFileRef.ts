@@ -1,6 +1,14 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { serverError } from '../util/serverCodes';
 
+/**
+ *  validateFileRef handles validating a files existence in S3
+ *
+ * @param req Express Request
+ * @param res Express Response
+ * @param next Express next()
+ * @returns
+ */
 export const validateFileRef: RequestHandler = async (
   req: Request,
   res: Response,

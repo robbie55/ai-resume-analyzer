@@ -20,12 +20,14 @@ app.use(bodyParser.json());
 // Middleware to parse URL-encoded form data
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Hello World
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World from ts');
 });
 
+// Use routes
 app.use(router);
 
 app.listen(port, () => {
-  console.log(`Server is running from port: ${port}`);
+  console.log(`🚀 Server running on port ${port}`);
 });

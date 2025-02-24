@@ -4,6 +4,14 @@ import { serverError, getEnv } from '../util';
 
 const client = new OpenAI({ apiKey: getEnv('OPENAI_KEY') });
 
+/**
+ *  analyzeResume handles calling openAI Util functions to handle analyzing file
+ *
+ * @param req Express Request
+ * @param res Express Response
+ * @param next Express next()
+ * @returns
+ */
 export const analyzeResume: RequestHandler = async (
   req: Request,
   res: Response,
@@ -25,6 +33,14 @@ export const analyzeResume: RequestHandler = async (
   }
 };
 
+/**
+ *  checkRunStatus handles checking whether our pending prompt has failed or succeded
+ *
+ * @param threadId ID for GPT conversation thread
+ * @param runId ID for currently running GPT conversation thread
+ * @param res Express Response
+ * @returns
+ */
 const checkRunStatus = async (
   threadId: string,
   runId: string,
@@ -60,6 +76,12 @@ const checkRunStatus = async (
   }
 };
 
+/**
+ *  runThread handles running a GPT thread
+ *
+ * @param threadId ID for GPT conversation thread
+ * @returns
+ */
 const runThread = async (threadId: string): Promise<string> => {
   try {
     const run: OpenAI.Beta.Threads.Runs.Run =
@@ -75,6 +97,12 @@ const runThread = async (threadId: string): Promise<string> => {
   }
 };
 
+/**
+ * createThread handles creating a GPT conversation thread
+ *
+ * @param parsedMarkdown file content as markdown to send to GPT
+ * @returns
+ */
 const createThread = async (parsedMarkdown: string): Promise<string> => {
   try {
     const thread: OpenAI.Beta.Thread = await client.beta.threads.create({

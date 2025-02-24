@@ -1,9 +1,15 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
-import { serverError } from '../util/serverCodes';
 import fs from 'fs';
 import pdfParse from 'pdf-parse';
 import mammoth from 'mammoth';
 
+/**
+ * parseFile handles parsing uploaded file into markdown
+ *
+ * @param req Express Request
+ * @param res Express Response
+ * @param next Express next()
+ */
 export const parseFile: RequestHandler = async (
   req: Request,
   res: Response,

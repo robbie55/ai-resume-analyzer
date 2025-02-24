@@ -1,6 +1,14 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { serverError } from '../util/serverCodes';
 
+/**
+ * validateFile handles ensuring uploaded file is of type PDF, DOC, or DOCX
+ *
+ * @param req Express Request
+ * @param res Express Response
+ * @param next Express next()
+ * @returns
+ */
 export const validateFile: RequestHandler = (
   req: Request,
   res: Response,
