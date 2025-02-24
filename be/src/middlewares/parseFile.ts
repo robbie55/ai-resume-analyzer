@@ -11,13 +11,18 @@ export const parseFile: RequestHandler = async (
 ): Promise<void> => {
   const { fileType, filePath } = req.body;
   let markdown: string;
-  if (fileType == 'pdf') {
-    markdown = await parsePdf(filePath);
-  } else {
-    markdown = await parseDocx(filePath);
-  }
+  try {
+    if (fileType == 'pdf') {
+      markdown = await parsePdf(filePath);
+    } else {
+      markdown = await parseDocx(filePath);
+    }
 
-  req.parsedMarkdown = markdown;
+    req.parsedMarkdown = markdown;
+  } catch (error) {
+    console.error('Error parsing file: ', error);
+    next(error);
+  }
 
   next();
 };

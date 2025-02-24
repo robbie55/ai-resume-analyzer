@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
-import { processResumeUpload } from '../services/uploadHandler';
+import { uploadFileS3 } from '../services/uploadHandler';
 import { serverError } from '../util/serverCodes';
 
 export const uploadResume: RequestHandler = async (
@@ -13,7 +13,7 @@ export const uploadResume: RequestHandler = async (
       return serverError(400, 'No file uploaded', res);
     }
 
-    const uploadedFile = await processResumeUpload(req.file);
+    const uploadedFile = await uploadFileS3(req.file);
     res
       .status(201)
       .json({ message: 'Resume uploaded successfully', file: uploadedFile });

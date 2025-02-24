@@ -27,7 +27,7 @@ export const validateFileRef: RequestHandler = async (
   next();
 };
 
-const checkFileExists: Function = (filePath: String): boolean => {
+const checkFileExists = (filePath: String): boolean => {
   // handle logic for eventual S3 retrieval using SDK
   // if (filePath != 'something') {
   //   return false;

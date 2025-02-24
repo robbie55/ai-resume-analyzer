@@ -1,6 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import router from './routes/routes';
@@ -9,7 +6,7 @@ import router from './routes/routes';
 declare global {
   namespace Express {
     interface Request {
-      parsedMarkdown?: string;
+      parsedMarkdown: string;
     }
   }
 }
