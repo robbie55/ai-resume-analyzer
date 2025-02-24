@@ -1,16 +1,16 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { processResumeUpload } from '../services/uploadHandler';
+import { serverError } from '../util/serverCodes';
 
 export const uploadResume: RequestHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     if (!req.file) {
       // This is just to satisfy TS; it should never happen due to validateFile
-      res.status(400).json({ error: 'No file uploaded' });
-      return;
+      return serverError(400, 'No file uploaded', res);
     }
 
     const uploadedFile = await processResumeUpload(req.file);

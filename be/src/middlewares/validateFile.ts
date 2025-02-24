@@ -1,17 +1,14 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
-
-const error = (message: string, res: Response) => {
-  res.status(400).json({ error: message });
-};
+import { serverError } from '../util/serverCodes';
 
 export const validateFile: RequestHandler = (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): void => {
   if (!req.file) {
     console.log(req);
-    return error('No file uploaded', res);
+    return serverError(400, 'No file uploaded', res);
   }
 
   // PDF, DOC, DOCX
@@ -22,7 +19,7 @@ export const validateFile: RequestHandler = (
   ];
 
   if (!allowedTypes.includes(req.file.mimetype)) {
-    return error('Invalid file type', res);
+    return serverError(400, 'Invalid file type', res);
   }
 
   next();
