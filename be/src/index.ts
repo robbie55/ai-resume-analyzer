@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import router from './routes/routes';
 import { handleError } from './middlewares/handleError';
+import connectDB from './config/db';
 
 // include custom paredMarkdown attribute
 declare global {
@@ -14,6 +15,8 @@ declare global {
 
 const app: express.Application = express();
 const port: number = 3000;
+
+connectDB();
 
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
