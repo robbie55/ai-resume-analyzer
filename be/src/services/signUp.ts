@@ -2,6 +2,14 @@ import User from '../models/User';
 import { Success } from '../types';
 import { hashPassword } from '../util';
 
+/**
+ * createUser encrypts and creates and stores a user to mongoDB atlas
+ *
+ * @param username
+ * @param password
+ * @param email
+ * @returns
+ */
 export const createUser = async (
   username: string,
   password: string,

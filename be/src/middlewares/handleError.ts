@@ -1,5 +1,13 @@
 import { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
 
+/**
+ * handleError enables global error handling
+ *
+ * @param err Error sent through next()
+ * @param req Express Request
+ * @param res Express Response
+ * @param next Express next()
+ */
 export const handleError: ErrorRequestHandler = (
   err: any,
   req: Request,
