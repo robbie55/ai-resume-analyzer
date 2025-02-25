@@ -1,12 +1,7 @@
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { getEnv } from '../util';
 import s3 from '../config/aws';
-
-interface Success {
-  success: boolean;
-  key?: string;
-  error?: Error;
-}
+import { Success } from '../types';
 
 /**
  * uploadFileS3 handles sending a PutObject cmd to S3 bucket
@@ -28,9 +23,12 @@ export const uploadFileS3 = async (
 
   try {
     await s3.send(command);
-    return { success: true, key: fileKey };
+    return { success: true, message: fileKey };
   } catch (err) {
-    console.error('Error sending s3 command: ' + err);
-    return { success: false, error: err as Error };
+    console.error('Error sending S3 PutObject command: ' + err);
+    return {
+      success: false,
+      message: 'Error sending S3 PutObject command',
+    };
   }
 };

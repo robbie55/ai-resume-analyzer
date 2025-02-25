@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import router from './routes/routes';
+import { handleError } from './middlewares/handleError';
 
 // include custom paredMarkdown attribute
 declare global {
@@ -27,6 +28,8 @@ app.get('/', (req: Request, res: Response) => {
 
 // Use routes
 app.use(router);
+
+app.use(handleError);
 
 app.listen(port, () => {
   console.log(`🚀 Server running on port ${port}`);

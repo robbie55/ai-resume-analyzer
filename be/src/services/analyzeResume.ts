@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import OpenAI from 'openai';
 import { serverError, getEnv } from '../util';
+import { Success } from '../types';
 
 const client = new OpenAI({ apiKey: getEnv('OPENAI_KEY') });
 
@@ -12,24 +13,17 @@ const client = new OpenAI({ apiKey: getEnv('OPENAI_KEY') });
  * @param next Express next()
  * @returns
  */
-export const analyzeResume: RequestHandler = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+export const analyzeResume = async (
+  parsedMarkdown: string
+): Promise<Success> => {
   try {
-    const { parsedMarkdown } = req;
-
-    if (!parsedMarkdown) {
-      return serverError(400, 'No resume content provided', res);
-    }
-
     const threadId: string = await createThread(parsedMarkdown);
     const runId: string = await runThread(threadId);
-    await checkRunStatus(threadId, runId, res);
+    const success = await checkRunStatus(threadId, runId);
+    return success;
   } catch (error) {
     console.error('Error in analyzeResume:', error);
-    next(error);
+    throw new Error('There was an issue analyzing your resume');
   }
 };
 
@@ -43,9 +37,9 @@ export const analyzeResume: RequestHandler = async (
  */
 const checkRunStatus = async (
   threadId: string,
-  runId: string,
-  res: Response
-): Promise<void> => {
+  runId: string
+): Promise<Success> => {
+  let success: Success = { success: false, message: '' };
   try {
     let run: OpenAI.Beta.Threads.Runs.Run;
 
@@ -53,11 +47,11 @@ const checkRunStatus = async (
       run = await client.beta.threads.runs.retrieve(threadId, runId);
 
       if (run.status === 'failed' || run.status === 'incomplete') {
-        console.log(run);
-        return serverError(400, `OpenAI thread failed`, res);
+        console.error('Error in thread run:' + run);
+        success.message = 'Error in thread run';
+        return success;
       }
 
-      console.log('Run Status: ', run.status);
       await new Promise((res) => setTimeout(res, 2000));
     } while (run.status !== 'completed');
 
@@ -65,14 +59,23 @@ const checkRunStatus = async (
     const messages = await client.beta.threads.messages.list(threadId);
 
     if (!messages.data.length) {
-      return serverError(500, 'No response from OpenAI', res);
+      console.error('No response from OpenAI' + run);
+      success.message = 'No response from OpenAI';
+      return success;
     }
 
     console.log('Assistant Response:', messages.data[0].content);
-    res.json({ response: messages.data[0].content });
+    success = {
+      success: true,
+      message: 'Successful analyzation',
+      content: messages.data[0].content,
+    };
+
+    return success;
   } catch (error) {
     console.error('Error in checkRunStatus:', error);
-    serverError(500, 'Error processing OpenAI request', res);
+    success.message = 'Error in checkRunStatus service';
+    return success;
   }
 };
 

@@ -1,16 +1,17 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { uploadFileS3 } from '../services/uploadHandler';
 import { serverError } from '../util/serverCodes';
+import { Success } from '../types';
 
 /**
- * uploadResume handles delegating file upload to S3 upload service
+ * uploadController handles delegating file upload to S3 upload service
  *
  * @param req Express Request
  * @param res Express Response
  * @param next Express next()
  * @returns
  */
-export const uploadResume: RequestHandler = async (
+export const uploadController: RequestHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -21,12 +22,10 @@ export const uploadResume: RequestHandler = async (
       return serverError(400, 'No file uploaded', res);
     }
 
-    const uploadedFile = await uploadFileS3(req.file);
-    res
-      .status(201)
-      .json({ message: 'Resume uploaded successfully', file: uploadedFile });
+    const success: Success = await uploadFileS3(req.file);
+    res.status(201).json({ message: 'Resume uploaded successfully', success });
   } catch (error) {
-    console.error('Error in uploadResume: ' + error);
+    console.error('Error in uploadController: ' + error);
     next(error);
   }
 };
