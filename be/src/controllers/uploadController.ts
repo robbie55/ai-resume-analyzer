@@ -23,7 +23,7 @@ export const uploadController: RequestHandler = async (
     }
 
     const success: Success = await uploadFileS3(req.file);
-    res.status(201).json({ message: 'Resume uploaded successfully', success });
+    res.status(201).json({ success });
   } catch (error) {
     console.error('Error in uploadController: ' + error);
     next(error);

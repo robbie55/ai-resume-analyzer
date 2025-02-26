@@ -17,7 +17,7 @@ export const analyzeController: RequestHandler = async (
 ): Promise<void> => {
   try {
     const success: Success = await analyzeResume(req.parsedMarkdown);
-    res.status(201).json({ message: 'Resume analyzed successfully', success });
+    res.status(201).json({ success });
   } catch (error) {
     console.error('Error in analyzeController: ' + error);
     next(error);

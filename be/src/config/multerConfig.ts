@@ -1,9 +1,4 @@
 import multer, { StorageEngine } from 'multer';
-import path from 'path';
-import { Request } from 'express';
-
-type destinationCb = (error: Error | null, destination: string) => void;
-type filenameCb = (error: Error | null, filename: string) => void;
 
 // Defines store destination and how it's saved
 const storage: StorageEngine = multer.memoryStorage();

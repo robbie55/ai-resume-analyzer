@@ -1,24 +1,24 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
-import { signUp } from '../auth/signUp';
+import { signIn } from '../auth/signIn';
 import { Success } from '../types';
 
 /**
- * signUpController handles delegating user information to store a new user in db
+ * signInController handles delegating user information to attempt to login a user
  *
  * @param req Express Request
  * @param res Express Response
  * @param next Express next()
  * @returns
  */
-export const signUpController: RequestHandler = async (
+export const signInController: RequestHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { username, password, email } = req.body;
-    const success: Success = await signUp(username, password, email);
-    res.status(201).json({ success });
+    const { username, password } = req.body;
+    const success: Success = await signIn(username, password);
+    res.status(200).json({ success });
   } catch (error) {
     console.error('Error in signUpController: ' + error);
     next(error);

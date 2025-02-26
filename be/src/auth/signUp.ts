@@ -1,5 +1,5 @@
 import User from '../models/User';
-import { Success } from '../types';
+import { IUser, Success } from '../types';
 import { hashPassword } from '../util';
 
 /**
@@ -10,7 +10,7 @@ import { hashPassword } from '../util';
  * @param email
  * @returns
  */
-export const createUser = async (
+export const signUp = async (
   username: string,
   password: string,
   email: string
@@ -19,7 +19,7 @@ export const createUser = async (
   try {
     const hashedPassword: string = await hashPassword(password);
 
-    const newUser = new User({
+    const newUser: IUser = new User({
       username,
       email,
       password: hashedPassword,
