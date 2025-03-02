@@ -1,0 +1,18 @@
+# Ignore the virtual environment
+dev/
+
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore OS-specific files
+.DS_Store
+
+# Ignore dependency cache
+pip-log.txt
+
+# Ignore IDE/editor configs (if using VSCode or PyCharm)
+.vscode/
+.idea/
+*.swp
