@@ -1,10 +1,10 @@
-import boto3
-import botocore
+#!/usr/bin/env python3
+import aws_cdk as cdk
 
-def lambda_handler(event, context): 
-  print(f'boto3 version: {boto3.__version__}')
-  print(f'botocore version: {botocore.__version__}')
+from app.pdf_stack import PdfLambdaStack
 
-# Manually call the function for testing
-if __name__ == "__main__":
-    lambda_handler({}, {})
+
+app = cdk.App()
+PdfLambdaStack(app, "CdkStack", env=cdk.Environment(account='319921948801', region='us-east-2'),)
+
+app.synth()

@@ -16,3 +16,13 @@ pip-log.txt
 .vscode/
 .idea/
 *.swp
+
+# CDK stuff
+*.swp
+cdk/__pycache__
+cdk/.pytest_cache
+*.egg-info
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
