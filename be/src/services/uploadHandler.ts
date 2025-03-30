@@ -10,11 +10,12 @@ import { Success } from '../types';
  * @returns
  */
 export const uploadFileS3 = async (
-  file: Express.Multer.File
+  file: Express.Multer.File,
+  user: string
 ): Promise<Success> => {
-  const fileKey = `resumes/robbie/${Date.now()}`; // update to include username
+  const fileKey = `resumes/${user}/${Date.now()}`; // update to include username
 
-  const command = new PutObjectCommand({
+  const command: PutObjectCommand = new PutObjectCommand({
     Bucket: getEnv('S3_BUCKET_NAME'),
     Key: fileKey,
     Body: file.buffer,

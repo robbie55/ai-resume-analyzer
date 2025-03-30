@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { serverError } from '../util/serverCodes';
+import { GetObjectCommand } from '@aws-sdk/client-s3';
+import { getEnv } from '../util';
+import s3 from '../config/aws';
 
 /**
  *  validateFileRef handles validating a files existence in S3
@@ -35,10 +38,19 @@ export const validateFileRef: RequestHandler = async (
   next();
 };
 
-const checkFileExists = (filePath: String): boolean => {
-  // handle logic for eventual S3 retrieval using SDK
-  // if (filePath != 'something') {
-  //   return false;
-  // }
+const checkFileExists = async (filePath: string): Promise<boolean> => {
+  const command: GetObjectCommand = new GetObjectCommand({
+    Bucket: getEnv('S3_BUCKET_NAME'),
+    Key: filePath,
+  });
+
+  try {
+    await s3.send(command);
+  } catch (error: any | { Code: string }) {
+    if (error.Code == 'NoSuchKey') {
+      return false;
+    }
+  }
+
   return true;
 };

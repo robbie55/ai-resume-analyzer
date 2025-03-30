@@ -8,9 +8,7 @@ const client = new OpenAI({ apiKey: getEnv('OPENAI_KEY') });
 /**
  *  analyzeResume handles calling openAI Util functions to handle analyzing file
  *
- * @param req Express Request
- * @param res Express Response
- * @param next Express next()
+ * @param parsedMarkdown parsed DOCX/PDF as HTML
  * @returns
  */
 export const analyzeResume = async (
@@ -68,7 +66,7 @@ const checkRunStatus = async (
     success = {
       success: true,
       message: 'Successful analyzation',
-      content: messages.data[0].content,
+      data: messages.data[0].content,
     };
 
     return success;

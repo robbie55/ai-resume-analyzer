@@ -22,7 +22,9 @@ export const uploadController: RequestHandler = async (
       return serverError(400, 'No file uploaded', res);
     }
 
-    const success: Success = await uploadFileS3(req.file);
+    const { file, user } = req;
+
+    const success: Success = await uploadFileS3(file, user);
     res.status(201).json({ success });
   } catch (error) {
     console.error('Error in uploadController: ' + error);

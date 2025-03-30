@@ -1,13 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import { Document, ObjectId } from 'mongoose';
-import { MessageContent } from 'openai/resources/beta/threads/messages';
+import {
+  Message,
+  MessageContent,
+} from 'openai/resources/beta/threads/messages';
 
 // success object returned by services
 export interface Success {
   success: boolean;
   message: string;
-  content?: MessageContent[];
-  token?: string;
+  data?: MessageContent[] | string | Buffer;
 }
 
 // TS interface for User Doc

@@ -28,7 +28,7 @@ export const signIn = async (
       const success: Success = {
         success: true,
         message: `Successfully logged in as ${username}`,
-        token: generateToken(username),
+        data: generateToken(username),
       };
 
       return success;
