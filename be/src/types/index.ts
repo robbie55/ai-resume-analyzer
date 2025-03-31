@@ -1,9 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
 import { Document, ObjectId } from 'mongoose';
-import {
-  Message,
-  MessageContent,
-} from 'openai/resources/beta/threads/messages';
+import { MessageContent } from 'openai/resources/beta/threads/messages';
 
 // success object returned by services
 export interface Success {

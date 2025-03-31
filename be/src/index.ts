@@ -15,7 +15,7 @@ declare global {
 }
 
 const app: express.Application = express();
-const port: number = 3000;
+const port: number = 8080;
 
 connectDB();
 
@@ -24,11 +24,6 @@ app.use(bodyParser.json());
 
 // Middleware to parse URL-encoded form data
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// Hello World
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World from ts');
-});
 
 // Use routes
 app.use(router);
