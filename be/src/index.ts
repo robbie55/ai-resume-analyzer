@@ -1,5 +1,6 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import bodyParser from 'body-parser';
+import cors, { CorsOptions } from 'cors';
 import router from './routes/routes';
 import { handleError } from './middlewares/handleError';
 import connectDB from './config/db';
@@ -14,7 +15,13 @@ declare global {
   }
 }
 
+const corsOptions: CorsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200,
+};
+
 const app: express.Application = express();
+app.use(cors(corsOptions));
 const port: number = 8080;
 
 connectDB();

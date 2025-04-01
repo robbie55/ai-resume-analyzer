@@ -19,7 +19,7 @@ const router = Router();
 
 // Handles file validation and upload to S3
 router.post(
-  '/upload',
+  '/api/upload',
   authenticate,
   upload.single('resume'),
   validateFile,
@@ -27,15 +27,15 @@ router.post(
 );
 // Handles file existence validation, parsing file to markup, and passing markup to openAI
 router.post(
-  '/analyze',
+  '/api/analyze',
   authenticate,
   validateFileRef,
   parseFile,
   analyzeController
 );
 // Handles validating input, encryption and storing user in db
-router.post('/sign-up', validateFields, doesUserExist, signUpController);
+router.post('/api/sign-up', validateFields, doesUserExist, signUpController);
 // Handles user sign in
-router.post('/sign-in', validateFields, signInController);
+router.post('/api/sign-in', validateFields, signInController);
 
 export default router;

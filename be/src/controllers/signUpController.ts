@@ -18,7 +18,7 @@ export const signUpController: RequestHandler = async (
   try {
     const { username, password, email } = req.body;
     const success: Success = await signUp(username, password, email);
-    res.status(201).json({ success });
+    res.status(201).json(success);
   } catch (error) {
     console.error('Error in signUpController: ' + error);
     next(error);
