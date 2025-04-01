@@ -23,13 +23,13 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
+    <div className="flex min-h-screen items-center justify-center bg-neutral-800">
       <Card className="w-[500px] p-6 shadow-xl">
         <CardHeader className="text-2xl font-semibold text-center text-blue-600">
           AI Resume Analyzation
         </CardHeader>
         <CardContent className="space-y-4">
-          <h2 className="text-lg text-center text-gray-700">
+          <h2 className="text-lg text-center text-gray-200">
             {!showSignIn &&
               !showSignUp &&
               'Welcome to our platform! Please sign up or sign in to get started.'}

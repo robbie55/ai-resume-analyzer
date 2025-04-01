@@ -5,6 +5,8 @@
   --foreground: #171717;
 }
 
+/* var(--darkreader-bg--color-gray-100, var(--darkreader-background-ffffff, #181a1b)); */
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
