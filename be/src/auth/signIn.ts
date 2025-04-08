@@ -1,7 +1,6 @@
 import User from '../models/User';
 import { IUser, Success } from '../types';
-import { comparePasswords, getEnv } from '../util';
-import { sign } from 'jsonwebtoken';
+import { comparePasswords } from '../util';
 
 /**
  * signIn checks user credentials and returns a token
@@ -15,6 +14,7 @@ export const signIn = async (
   username: string,
   password: string
 ): Promise<Success> => {
+  let success: Success;
   try {
     const user: IUser | null = await User.findOne({ username });
 
@@ -24,23 +24,22 @@ export const signIn = async (
 
     const compare = await comparePasswords(password, user.password);
 
-    if (compare) {
-      const success: Success = {
-        success: true,
-        message: `Successfully logged in as ${username}`,
-        data: generateToken(username),
-      };
-
-      return success;
-    } else {
+    if (!compare) {
       throw new Error('Invalid Password');
     }
+
+    success = {
+      success: true,
+      message: `Successfully logged in as ${username}`,
+      data: username,
+    };
   } catch (error) {
     console.error('Error in createUser: ', error);
-    throw new Error('There was an issue creating your account');
+    success = {
+      success: false,
+      message: 'There was an issue signing the client in',
+    };
   }
-};
 
-const generateToken = (username: string): string => {
-  return sign({ userId: username }, getEnv('JWT_SECRET'), { expiresIn: '1h' });
+  return success;
 };
