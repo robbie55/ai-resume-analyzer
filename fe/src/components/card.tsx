@@ -17,9 +17,7 @@ export function Card({ children, className }: CardProps) {
 // CardHeader Component
 export function CardHeader({ children, className }: CardProps) {
   return (
-    <div
-      className={`p-4 border-b border-gray-200 text-xl font-semibold ${className}`}
-    >
+    <div className={`p-4 border-b border-gray-200  font-semibold ${className}`}>
       {children}
     </div>
   );

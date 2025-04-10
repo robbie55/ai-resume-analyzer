@@ -1,35 +1,48 @@
 import React, { useState } from 'react';
 import { Button } from './button';
-import axios from 'axios';
-import { ApiSuccess } from '@/types';
+import { useAuth } from '@/context/AuthContext';
+import { signIn } from '@/api/user';
 
 interface SignInProps {
   handleSignUpClick: () => void;
+  handleSignInError: (message: string) => void;
+  clearError: () => void;
 }
 
-export default function SignIn({ handleSignUpClick }: SignInProps) {
+export default function SignIn({
+  handleSignUpClick,
+  handleSignInError,
+  clearError,
+}: SignInProps) {
+  const { login } = useAuth();
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const validateInput = (input: String): boolean => {
-    return input.trim().length === 0;
+  const setUser = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const user: string = e.target.value;
+    if (user.length > 1 && !user.trim()) return;
+    clearError();
+    setUsername(user);
   };
 
-  const signIn = async (): Promise<void> => {
-    if (!validateInput(username) || !validateInput(password)) {
-      // do something
+  const setPass = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const pass: string = e.target.value;
+    if (pass.length > 1 && !pass.trim()) return;
+    clearError();
+    setPassword(pass);
+  };
+
+  const handleLogin = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
+    e.preventDefault();
+    const success: boolean = await signIn(username, password);
+    if (!success) {
+      handleSignInError('Invalid username or password, please try again');
+      return;
     }
-    try {
-      const success: ApiSuccess = await axios.post(
-        `${process.env.NEXT_PUBLIC_SIGNIN_PATH}/api/sign-in`,
-        {
-          username,
-          password,
-        }
-      );
-    } catch (err) {
-      console.error('Error in Sign In API call: ' + err);
-    }
+
+    login(username);
   };
 
   return (
@@ -40,22 +53,21 @@ export default function SignIn({ handleSignUpClick }: SignInProps) {
       <form className="space-y-2">
         <input
           type="text"
-          placeholder="Email"
+          placeholder="Username"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={setUser}
           className="w-full p-2 border border-gray-300 rounded-lg text-gray-200"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={setPass}
           className="w-full p-2 border border-gray-300 rounded-lg text-gray-200"
         />
         <Button
           onClick={async (e: React.MouseEvent<HTMLButtonElement>) => {
-            e.preventDefault();
-            await signIn();
+            await handleLogin(e);
           }}
           className="w-full bg-green-600 hover:bg-green-700"
         >

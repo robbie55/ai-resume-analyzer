@@ -42,11 +42,11 @@ export default function ResumeUploader() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
+    <div className="flex min-h-screen items-center justify-center bg-neutral-800">
       <Card className="w-[500px] p-6 shadow-xl">
         {' '}
         {/* Set fixed width here */}
-        <CardHeader className="text-xl font-semibold text-center">
+        <CardHeader className="text-xl font-semibold text-center text-gray-200">
           Upload Your Resume for AI Analysis
         </CardHeader>
         <CardContent className="space-y-4">

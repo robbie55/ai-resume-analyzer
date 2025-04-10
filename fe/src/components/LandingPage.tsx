@@ -11,8 +11,39 @@ export default function LandingPage() {
   const [showSignUp, setShowSignUp] = useState<boolean>(false);
   const [showSignIn, setShowSignIn] = useState<boolean>(false);
 
+  const [signInError, setSignInError] = useState<boolean>(false);
+  const [signUpError, setSignUpError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+
+  const handleSignInError = (message: string): void => {
+    setSignInError(true);
+    if (!message.trim()) {
+      setErrorMessage('There was an issue logging you in');
+      return;
+    }
+    setErrorMessage(message);
+  };
+
+  const clearSignInError = (): void => {
+    setSignInError(false);
+    setErrorMessage('');
+  };
+
+  const clearSignUpError = (): void => {
+    setSignUpError(false);
+    setErrorMessage('');
+  };
+
+  const handleSignUpError = (message: string): void => {
+    setSignUpError(true);
+    if (!message.trim()) {
+      setErrorMessage('There was an issue logging you in');
+      return;
+    }
+    setErrorMessage(message);
+  };
+
   const handleSignUpClick = (): void => {
-    console.log(4362);
     setShowSignUp(true);
     setShowSignIn(false);
   };
@@ -23,7 +54,14 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-neutral-800">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-neutral-800">
+      {(signInError || signUpError) && (
+        <Card className="w-[500px]">
+          <CardHeader className="text-m text-center text-[#FA8072]">
+            {errorMessage}
+          </CardHeader>
+        </Card>
+      )}
       <Card className="w-[500px] p-6 shadow-xl">
         <CardHeader className="text-2xl font-semibold text-center text-blue-600">
           AI Resume Analyzation
@@ -57,10 +95,22 @@ export default function LandingPage() {
           )}
 
           {/* Conditionally render Sign Up form */}
-          {showSignUp && <SignUp handleSignInClick={handleSignInClick} />}
+          {showSignUp && (
+            <SignUp
+              handleSignInClick={handleSignInClick}
+              handleSignUpError={handleSignUpError}
+              clearError={clearSignUpError}
+            />
+          )}
 
           {/* Conditionally render Sign In form */}
-          {showSignIn && <SignIn handleSignUpClick={handleSignUpClick} />}
+          {showSignIn && (
+            <SignIn
+              handleSignUpClick={handleSignUpClick}
+              handleSignInError={handleSignInError}
+              clearError={clearSignInError}
+            />
+          )}
         </CardContent>
       </Card>
     </div>
